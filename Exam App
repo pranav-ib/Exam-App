@@ -1,0 +1,323 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Desktop.Action;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+
+class Exam extends JFrame implements ActionListener {
+    JPanel panel1, panel2, panel3, panel4;
+    JButton[] buttons;
+    JLabel question;
+    JRadioButton[] option;
+    ButtonGroup optionGroup;
+    JButton next, submit;
+    int total = 0, current = 0; 
+
+    Exam(){
+        setTitle("Online Exam App - Welcome");
+        setSize(1920, 1080);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        panel1 = new JPanel();
+        panel2 = new JPanel();
+        panel3 = new JPanel(new GridLayout(0,1));
+        panel4 = new JPanel(new GridLayout(0,1));
+
+    //    panel1.setBackground(Color.BLUE);
+    //    panel2.setBackground(Color.GREEN);
+    //    panel3.setBackground(Color.WHITE);
+
+        panel1.setPreferredSize(new Dimension(1120,1080));
+        panel2.setPreferredSize(new Dimension(400,1080));
+        panel3.setPreferredSize(new Dimension(1120,200));
+
+        question = new JLabel();
+        panel3.add(question);
+        panel1.add(panel3);
+        option = new JRadioButton[4];
+        optionGroup = new ButtonGroup();
+        for(int i =0; i<4; i++){
+            option[i] = new JRadioButton();
+            optionGroup.add(option[i]);
+            panel4.add(option[i]);
+        }
+        panel3.add(panel4);
+        next = new JButton("Next");
+        submit = new JButton("submit");
+
+        next.addActionListener(this);
+        submit.addActionListener(this);
+      
+        panel1.add(next);
+        panel1.add(submit);
+        add(panel2, BorderLayout.WEST); 
+        add(panel1, BorderLayout.EAST);
+   
+        panel2.setVisible(true);
+        panel3.setVisible(true);
+        questionSelect(current);
+        setVisible(true);
+    }
+
+   public void actionPerformed(ActionEvent event){
+        if(event.getSource() == next){
+            if(isAnswer())
+                total++;
+            current++;
+            questionSelect(current);          
+        }
+        else if(event.getSource() == submit){
+            if(isAnswer())
+                total++;
+                JOptionPane.showMessageDialog(this, "You have scored "+total+" out of 10");
+                dispose();
+        }
+    }
+
+
+    void questionSelect(int index) {
+        switch (index) {
+            case 0:
+                question.setText("Q1: Which method is used to start a thread in Java?");
+                option[0].setText("init()");
+                option[1].setText("start()");
+                option[2].setText("run()");
+                option[3].setText("resume()");
+                break;
+            case 1:
+                question.setText("Q2: Which of the following is not a pillar of OOP?");
+                option[0].setText("Abstraction");
+                option[1].setText("Encapsulation");
+                option[2].setText("Polymorphism");
+                option[3].setText("Compilation");
+                break;
+            case 2:
+                question.setText("Q3: What is the time complexity of binary search?");
+                option[0].setText("O(n)");
+                option[1].setText("O(log n)");
+                option[2].setText("O(n log n)");
+                option[3].setText("O(1)");
+                break;
+            case 3:
+                question.setText("Q4: Which keyword is used to inherit a class in Java?");
+                option[0].setText("implement");
+                option[1].setText("inherits");
+                option[2].setText("extends");
+                option[3].setText("derives");
+                break;
+            case 4:
+                question.setText("Q5: Which data structure uses LIFO (Last In First Out) principle?");
+                option[0].setText("Queue");
+                option[1].setText("Array");
+                option[2].setText("Stack");
+                option[3].setText("Tree");
+                break;
+            case 5:
+                question.setText("Q6: What does JVM stand for?");
+                option[0].setText("Java Virtual Machine");
+                option[1].setText("Java Verified Machine");
+                option[2].setText("Java Variable Machine");
+                option[3].setText("Java Visual Machine");
+                break;
+            case 6:
+                question.setText("Q7: Which method is used to join a thread in Java?");
+                option[0].setText("combine()");
+                option[1].setText("join()");
+                option[2].setText("link()");
+                option[3].setText("merge()");
+                break;
+            case 7:
+                question.setText("Q8: What is the return type of the hashCode() method in Java?");
+                option[0].setText("int");
+                option[1].setText("long");
+                option[2].setText("float");
+                option[3].setText("double");
+                break;
+            case 8:
+                question.setText("Q9: Which collection class allows you to access its elements by a unique key?");
+                option[0].setText("ArrayList");
+                option[1].setText("LinkedList");
+                option[2].setText("HashSet");
+                option[3].setText("HashMap");
+                break;
+            case 9:
+                question.setText("Q10: Which of the following is a marker interface?");
+                option[0].setText("Serializable");
+                option[1].setText("Cloneable");
+                option[2].setText("Remote");
+                option[3].setText("All of the above");
+                break;
+        }
+        for (JRadioButton option : option) {
+            option.setSelected(false);
+        }
+    }
+    
+    boolean isAnswer() {
+        if (current == 0)
+            return option[1].isSelected(); 
+        if (current == 1)
+            return option[3].isSelected(); 
+        if (current == 2)
+            return option[1].isSelected();
+        if (current == 3)
+            return option[2].isSelected(); 
+        if (current == 4)
+            return option[2].isSelected(); 
+        if (current == 5)
+            return option[0].isSelected(); 
+        if (current == 6)
+            return option[1].isSelected(); 
+        if (current == 7)
+            return option[0].isSelected(); 
+        if (current == 8)
+            return option[3].isSelected(); 
+        if (current == 9)
+            return option[3].isSelected(); 
+        return false;
+    }
+    
+}
+
+class Login extends JFrame implements ActionListener {
+    JButton loginbutton, registerbutton;
+    JLabel userL, passwordL, text1, text2, titleL, gap;
+    JTextField usernameField;
+    JPasswordField passwordField;
+    HashMap<String, String> creditials = new HashMap<>();
+    Register register;
+
+    Login() {
+        setTitle("Online Exam App");
+        setLayout(new FlowLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 400);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
+
+        gap = new JLabel();
+        titleL = new JLabel("LOGIN :");
+        titleL.setForeground(Color.BLUE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1));
+
+        userL = new JLabel("Username:");
+        passwordL = new JLabel("Password:");
+        text1 = new JLabel("Dont have an account ? ");
+        text1.setForeground(Color.GRAY);
+        text2 = new JLabel();
+
+        usernameField = new JTextField(30);
+        passwordField = new JPasswordField(30);
+        loginbutton = new JButton("Login");
+        registerbutton = new JButton("Register");
+
+        panel.add(titleL);
+        panel.add(userL);
+        panel.add(usernameField);
+        panel.add(passwordL);
+        panel.add(passwordField);
+        panel.add(loginbutton);
+        panel.add(gap);
+        panel.add(text1);
+        panel.add(registerbutton);
+        panel.add(text2);
+        add(panel);
+
+        loginbutton.addActionListener(this);
+        registerbutton.addActionListener(this);
+        creditials.put("user1", "password1");
+        creditials.put("user2", "password2");
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == loginbutton) {
+            String username = usernameField.getText();
+            String password = String.valueOf(passwordField.getPassword());
+
+            if (creditials.containsKey(username) && creditials.get(username).equals(password)) {
+                JOptionPane.showMessageDialog(this, "Login successful !");
+                dispose();
+                Exam ex = new Exam();
+
+            } else {
+                text2.setForeground(Color.red);
+                text2.setText("\n\nInvalid username or password. Please try again later.");
+            }
+        } else if (ae.getSource() == registerbutton) {
+            dispose();
+            register = new Register();
+            register.setVisible(true);
+        }
+    }
+
+    void addCredentials(String username, String password) {
+        creditials.put(username, password);
+    }
+}
+
+class Register extends JFrame implements ActionListener {
+
+    JLabel userL, passL, textL, titleL;
+    JButton submit;
+    JTextField userField;
+    JPasswordField passField;
+    Login parent;
+
+    Register() {
+        setTitle("Online Exam App");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 300);
+        setResizable(false);
+        setLayout(new FlowLayout());
+        setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1));
+
+        titleL = new JLabel("REGISTRATION");
+        titleL.setForeground(Color.BLUE);
+        userL = new JLabel("Username: ");
+        passL = new JLabel("Password: ");
+        textL = new JLabel();
+        userField = new JTextField(30);
+        passField = new JPasswordField(30);
+
+        submit = new JButton("Submit");
+        submit.setBackground(Color.GREEN);
+        submit.setForeground(Color.WHITE);
+
+        panel.add(titleL);
+        panel.add(userL);
+        panel.add(userField);
+        panel.add(passL);
+        panel.add(passField);
+        panel.add(submit);
+        panel.add(textL);
+        add(panel);
+        setVisible(true);
+
+        submit.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        String username = userField.getText();
+        String password = String.valueOf(passField.getPassword());
+
+        parent = new Login();
+        parent.addCredentials(username, password);
+        textL.setText("Registration Successful !");
+        dispose();
+    }
+}
+
+class OnlineExam {
+    public static void main(String[] args) {
+        Login login = new Login();
+    }
+}
